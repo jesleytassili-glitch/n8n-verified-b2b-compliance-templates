@@ -1,0 +1,57 @@
+{
+  "generatedAtUtc": "2026-11-02T21:35:24.504669+00:00",
+  "packVersion": "1.0.0",
+  "affiliateUrlConfigured": "https://n8n.io/cloud/?utm_source=n8n_creator_b2bquantapis",
+  "templatesCount": 4,
+  "allCompliancePassed": true,
+  "templates": [
+    {
+      "filename": "01_automated_supplier_kyb_ofac_sanctions_gleif_gate.json",
+      "workflowName": "Automated Supplier KYB, OFAC Sanctions & GLEIF Corporate Ownership Gate",
+      "category": "SecOps & FinOps Compliance",
+      "primarySlug": "global-sanctions-pep-interpol-watchlist-screener",
+      "secondarySlug": "global-gleif-lei-corporate-ownership-kyb",
+      "totalNodes": 11,
+      "stickyNotesCount": 3,
+      "functionalNodesCount": 8,
+      "summaryEn": "Screens B2B suppliers against OFAC SDN, UN, EU and Interpol watchlists in parallel with GLEIF LEI parent-company ownership verification before approving onboarding or high-value payouts.",
+      "compliancePassed": true
+    },
+    {
+      "filename": "02_devsecops_cisa_kev_ransomware_cve_ssl_monitor.json",
+      "workflowName": "Daily DevSecOps CISA KEV Ransomware CVE & SSL Attack-Surface Monitor",
+      "category": "DevOps & Cybersecurity",
+      "primarySlug": "cisa-kev-ransomware-vulnerability-auditor",
+      "secondarySlug": "b2b-ssl-tls-ct-log-subdomain-attack-surface-auditor",
+      "totalNodes": 11,
+      "stickyNotesCount": 3,
+      "functionalNodesCount": 8,
+      "summaryEn": "Audits production domains and CVE inventories daily against the US CISA Known Exploited Vulnerabilities (KEV) catalog and Certificate Transparency (CT) logs to catch ransomware exposure and expiring TLS certificates before outages occur.",
+      "compliancePassed": true
+    },
+    {
+      "filename": "03_cross_border_eu_vies_vat_email_domain_auditor.json",
+      "workflowName": "Cross-Border EU VIES VAT Reverse-Charge & Anti-BEC Billing Domain Auditor",
+      "category": "Finance & Accounting Automation",
+      "primarySlug": "eu-vies-vat-tax-compliance-auditor",
+      "secondarySlug": "global-b2b-email-domain-security-auditor",
+      "totalNodes": 11,
+      "stickyNotesCount": 3,
+      "functionalNodesCount": 8,
+      "summaryEn": "Verifies European Union cross-border VAT registration numbers against official EU VIES for 0% Reverse-Charge compliance while auditing the vendor's billing email domain (SPF, DMARC, MX) to prevent Business Email Compromise (BEC) wire fraud.",
+      "compliancePassed": true
+    },
+    {
+      "filename": "04_global_public_tenders_eu_ted_brazil_pncp_radar.json",
+      "workflowName": "Global Government Procurement Radar (EU TED & LATAM PNCP High-Value Tenders)",
+      "category": "Sales & B2B Lead Generation",
+      "primarySlug": "eu-ted-public-tenders-procurement-radar",
+      "secondarySlug": "b2b-gov-procurement-pncp-radar",
+      "totalNodes": 11,
+      "stickyNotesCount": 3,
+      "functionalNodesCount": 8,
+      "summaryEn": "Monitors European Union TED and LATAM PNCP public procurement portals every morning, normalizing contract values, deduplicating tenders, and routing high-ticket B2G opportunities straight to your CRM or Sales Slack channel.",
+      "compliancePassed": true
+    }
+  ]
+}
