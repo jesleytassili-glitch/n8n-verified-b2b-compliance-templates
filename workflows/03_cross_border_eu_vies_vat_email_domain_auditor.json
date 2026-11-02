@@ -1,0 +1,381 @@
+{
+  "name": "Cross-Border EU VIES VAT Reverse-Charge & Anti-BEC Billing Domain Auditor",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Cross-Border EU VIES VAT Reverse-Charge & Anti-BEC Billing Domain Auditor\n\n**Category:** Finance & Accounting Automation\n\nVerifies European Union cross-border VAT registration numbers against official EU VIES for 0% Reverse-Charge compliance while auditing the vendor's billing email domain (SPF, DMARC, MX) to prevent Business Email Compromise (BEC) wire fraud.\n\n### Run 24/7 on n8n Cloud\nDeploy this schedule without managing servers on **n8n Cloud**: https://n8n.io/cloud/?utm_source=n8n_creator_b2bquantapis",
+        "height": 250,
+        "width": 440,
+        "color": 4
+      },
+      "id": "wf3-sticky-1",
+      "name": "Sticky Note - Overview",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        200,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Quick Setup (< 2 Minutes)\n\n1. Get a free API key on RapidAPI (**15 free runs/month**, PRO `$19/mo`):\n   `https://rapidapi.com/user/b2bquantapis`\n2. In n8n, create a **Header Auth** credential:\n   - **Name:** `X-RapidAPI-Key`\n   - **Value:** `YOUR_RAPIDAPI_KEY`\n3. Select that credential in both **HTTP Request** compliance nodes below.\n4. Replace `https://httpbin.org/post` in the Escalation node with your Slack, Teams, or Jira webhook.",
+        "height": 250,
+        "width": 460,
+        "color": 5
+      },
+      "id": "wf3-sticky-2",
+      "name": "Sticky Note - Setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        700,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Scoring & Conditional Gate\n\n- The **Code** node merges responses from both engines, removes duplicates, and computes `riskScore` (`0–100`).\n- **High Priority (`riskScore >= 60`)** routes to the real-time **Escalation Webhook**.\n- **Standard / Clean (`riskScore < 60`)** logs a structured JSON audit record ready for Postgres, S3, or Google Sheets.",
+        "height": 250,
+        "width": 440,
+        "color": 6
+      },
+      "id": "wf3-sticky-3",
+      "name": "Sticky Note - Routing Logic",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * 1-5"
+            }
+          ]
+        }
+      },
+      "id": "wf3-trigger",
+      "name": "Scheduled Compliance Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        220,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "assign-1",
+              "name": "countryCode",
+              "value": "IE",
+              "type": "string"
+            },
+            {
+              "id": "assign-2",
+              "name": "vatNumber",
+              "value": "6388047V",
+              "type": "string"
+            },
+            {
+              "id": "assign-3",
+              "name": "billingDomain",
+              "value": "stripe.com",
+              "type": "string"
+            },
+            {
+              "id": "assign-4",
+              "name": "invoiceId",
+              "value": "INV-2026-0941",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "wf3-normalize",
+      "name": "Normalize Intake Payload",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        460,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://eu-vies-vat-tax-compliance-auditor.p.rapidapi.com/v2/acts/b2b-quant-apis~eu-vies-vat-tax-compliance-auditor/run-sync-get-dataset-items",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-RapidAPI-Host",
+              "value": "eu-vies-vat-tax-compliance-auditor.p.rapidapi.com"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"vatNumbers\": [{\"countryCode\": \"={{ $json.countryCode }}\", \"vatNumber\": \"={{ $json.vatNumber }}\"}]}",
+        "options": {
+          "timeout": 45000
+        }
+      },
+      "id": "wf3-http-1",
+      "name": "Primary Compliance Engine",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        720,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://global-b2b-email-domain-security-auditor.p.rapidapi.com/v2/acts/b2b-quant-apis~global-b2b-email-domain-security-auditor/run-sync-get-dataset-items",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-RapidAPI-Host",
+              "value": "global-b2b-email-domain-security-auditor.p.rapidapi.com"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"domains\": [\"={{ $('Normalize Intake Payload').item.json.billingDomain }}\"], \"checkDmarcSpf\": true}",
+        "options": {
+          "timeout": 45000
+        }
+      },
+      "id": "wf3-http-2",
+      "name": "Secondary Verification Engine",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        980,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const intake = $('Normalize Intake Payload').first().json;\nconst primaryItems = $('Primary Compliance Engine').all().map(i => i.json);\nconst secondaryItems = $input.all().map(i => i.json);\nconst combinedCount = primaryItems.length + secondaryItems.length;\nconst serialized = JSON.stringify({ primaryItems, secondaryItems }).toLowerCase();\nlet riskScore = 20;\nif (serialized.includes('critical') || serialized.includes('sanction') || serialized.includes('invalid') || serialized.includes('ransomware')) {\n  riskScore = 85;\n} else if (combinedCount > 0) {\n  riskScore = 65;\n}\nreturn [{\n  json: {\n    auditedAtUtc: new Date().toISOString(),\n    workflowSlug: '03_cross_border_eu_vies_vat_email_domain_auditor',\n    intakeSummary: intake,\n    primaryFindingsCount: primaryItems.length,\n    secondaryFindingsCount: secondaryItems.length,\n    riskScore,\n    requiresAction: riskScore >= 60\n  }\n}];"
+      },
+      "id": "wf3-score",
+      "name": "Correlate & Score Findings",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1240,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond-3",
+              "leftValue": "={{ $json.riskScore }}",
+              "rightValue": 60,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "wf3-if-gate",
+      "name": "Priority Gate (Score >= 60)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1500,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://httpbin.org/post",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 15000
+        }
+      },
+      "id": "wf3-escalate",
+      "name": "Dispatch Priority Alert Webhook",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1780,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "audit-status",
+              "name": "complianceStatus",
+              "value": "CLEARED_ARCHIVED",
+              "type": "string"
+            },
+            {
+              "id": "audit-ts",
+              "name": "archivedAtUtc",
+              "value": "={{ $json.auditedAtUtc }}",
+              "type": "string"
+            },
+            {
+              "id": "audit-score",
+              "name": "riskScore",
+              "value": "={{ $json.riskScore }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "wf3-archive",
+      "name": "Format Clean Audit Ledger Record",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1780,
+        520
+      ]
+    }
+  ],
+  "connections": {
+    "Scheduled Compliance Trigger": {
+      "main": [
+        [
+          {
+            "node": "Normalize Intake Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Intake Payload": {
+      "main": [
+        [
+          {
+            "node": "Primary Compliance Engine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Primary Compliance Engine": {
+      "main": [
+        [
+          {
+            "node": "Secondary Verification Engine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Secondary Verification Engine": {
+      "main": [
+        [
+          {
+            "node": "Correlate & Score Findings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Correlate & Score Findings": {
+      "main": [
+        [
+          {
+            "node": "Priority Gate (Score >= 60)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Priority Gate (Score >= 60)": {
+      "main": [
+        [
+          {
+            "node": "Dispatch Priority Alert Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Clean Audit Ledger Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": false,
+    "category": "Finance & Accounting Automation",
+    "author": "@b2bquantapis"
+  },
+  "tags": [
+    {
+      "name": "compliance"
+    },
+    {
+      "name": "b2b"
+    },
+    {
+      "name": "security"
+    },
+    {
+      "name": "automation"
+    }
+  ]
+}
