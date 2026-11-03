@@ -3,7 +3,7 @@
   "nodes": [
     {
       "parameters": {
-        "content": "## Global Government Procurement Radar (EU TED & LATAM PNCP High-Value Tenders)\n\n**Category:** Sales & B2B Lead Generation\n\nMonitors European Union TED and LATAM PNCP public procurement portals every morning, normalizing contract values, deduplicating tenders, and routing high-ticket B2G opportunities straight to your CRM or Sales Slack channel.\n\n### Run 24/7 on n8n Cloud\nDeploy this schedule without managing servers on **n8n Cloud**: https://n8n.io/cloud/?utm_source=n8n_creator_b2bquantapis",
+        "content": "## Global Government Procurement Radar (EU TED & LATAM PNCP High-Value Tenders)\n\n**Category:** Sales & B2B Lead Generation\n\nMonitors European Union TED and LATAM PNCP public procurement portals every morning, normalizing contract values, deduplicating tenders, and routing high-ticket B2G opportunities straight to your CRM or Sales Slack channel.\n\n**Cloud Scheduling:** Compatible with self-hosted n8n and n8n Cloud (https://n8n.io/cloud/).",
         "height": 250,
         "width": 440,
         "color": 4
@@ -125,7 +125,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\"keywords\": [\"={{ $json.searchKeyword }}\"], \"maxItems\": 10}",
+        "jsonBody": "{\"searchKeyword\": \"={{ $json.searchKeyword }}\", \"maxResults\": 10}",
         "options": {
           "timeout": 45000
         }
@@ -160,7 +160,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\"termo\": \"={{ $('Normalize Intake Payload').item.json.searchKeyword }}\", \"maxItems\": 10}",
+        "jsonBody": "{\"keywords\": [\"={{ $('Normalize Intake Payload').item.json.searchKeyword }}\"], \"uf\": \"SP\", \"fetchItems\": false, \"maxResults\": 10}",
         "options": {
           "timeout": 45000
         }
