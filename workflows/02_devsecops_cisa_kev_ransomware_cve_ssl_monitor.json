@@ -3,7 +3,7 @@
   "nodes": [
     {
       "parameters": {
-        "content": "## Daily DevSecOps CISA KEV Ransomware CVE & SSL Attack-Surface Monitor\n\n**Category:** DevOps & Cybersecurity\n\nAudits production domains and CVE inventories daily against the US CISA Known Exploited Vulnerabilities (KEV) catalog and Certificate Transparency (CT) logs to catch ransomware exposure and expiring TLS certificates before outages occur.\n\n### Run 24/7 on n8n Cloud\nDeploy this schedule without managing servers on **n8n Cloud**: https://n8n.io/cloud/?utm_source=n8n_creator_b2bquantapis",
+        "content": "## Daily DevSecOps CISA KEV Ransomware CVE & SSL Attack-Surface Monitor\n\n**Category:** DevOps & Cybersecurity\n\nAudits production domains and CVE inventories daily against the US CISA Known Exploited Vulnerabilities (KEV) catalog and Certificate Transparency (CT) logs to catch ransomware exposure and expiring TLS certificates before outages occur.\n\n**Cloud Scheduling:** Compatible with self-hosted n8n and n8n Cloud (https://n8n.io/cloud/).",
         "height": 250,
         "width": 440,
         "color": 4
@@ -81,8 +81,8 @@
             },
             {
               "id": "assign-2",
-              "name": "monitoredCves",
-              "value": "CVE-2024-3400,CVE-2023-4966",
+              "name": "vendorKeyword",
+              "value": "CVE-2024-3400",
               "type": "string"
             },
             {
@@ -125,7 +125,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\"cveIds\": [\"CVE-2024-3400\", \"CVE-2023-4966\"], \"ransomwareOnly\": false}",
+        "jsonBody": "{\"vendorKeyword\": \"={{ $json.vendorKeyword }}\", \"onlyRansomware\": false, \"maxResults\": 15}",
         "options": {
           "timeout": 45000
         }
@@ -160,7 +160,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\"domains\": [\"={{ $('Normalize Intake Payload').item.json.targetDomain }}\"], \"includeSubdomains\": true}",
+        "jsonBody": "{\"rootDomain\": \"={{ $('Normalize Intake Payload').item.json.targetDomain }}\", \"excludeExpired\": false, \"maxResults\": 15}",
         "options": {
           "timeout": 45000
         }
