@@ -3,7 +3,7 @@
   "nodes": [
     {
       "parameters": {
-        "content": "## Automated Supplier KYB, OFAC Sanctions & GLEIF Corporate Ownership Gate\n\n**Category:** SecOps & FinOps Compliance\n\nScreens B2B suppliers against OFAC SDN, UN, EU and Interpol watchlists in parallel with GLEIF LEI parent-company ownership verification before approving onboarding or high-value payouts.\n\n### Run 24/7 on n8n Cloud\nDeploy this schedule without managing servers on **n8n Cloud**: https://n8n.io/cloud/?utm_source=n8n_creator_b2bquantapis",
+        "content": "## Automated Supplier KYB, OFAC Sanctions & GLEIF Corporate Ownership Gate\n\n**Category:** SecOps & FinOps Compliance\n\nScreens B2B suppliers against OFAC SDN, UN, EU and Interpol watchlists in parallel with GLEIF LEI parent-company ownership verification before approving onboarding or high-value payouts.\n\n**Cloud Scheduling:** Compatible with self-hosted n8n and n8n Cloud (https://n8n.io/cloud/).",
         "height": 250,
         "width": 440,
         "color": 4
@@ -131,7 +131,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\"entities\": [{\"name\": \"={{ $json.vendorName }}\", \"country\": \"={{ $json.countryCode }}\"}], \"fuzzyThreshold\": 0.85}",
+        "jsonBody": "{\"entityName\": \"={{ $json.vendorName }}\", \"entityType\": \"ORGANIZATION\", \"maxResults\": 10}",
         "options": {
           "timeout": 45000
         }
@@ -166,7 +166,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\"leiCodes\": [\"={{ $('Normalize Intake Payload').item.json.leiCode }}\"], \"includeParentChain\": true}",
+        "jsonBody": "{\"companyName\": \"={{ $('Normalize Intake Payload').item.json.vendorName }}\", \"countryCode\": \"={{ $('Normalize Intake Payload').item.json.countryCode }}\", \"maxResults\": 10}",
         "options": {
           "timeout": 45000
         }
