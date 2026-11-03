@@ -3,7 +3,7 @@
 ## 1. Como Ativar os 2 Fluxos de Receita Recorrente em USD (Wise `#890361113`)
 1. **Programa de Afiliados n8n Cloud (30% de comissão recorrente por 12 meses):**
    - Cadastro gratuito em 2 minutos: https://n8n.io/affiliates/
-   - Assim que receber seu link (`?ref=...`), defina `N8N_AFFILIATE_URL` no `.env` (atual: `https://n8n.io/cloud/?utm_source=n8n_creator_b2bquantapis`) e rode novamente este builder para atualizar os Sticky Notes.
+   - Assim que receber seu link (`?ref=...`), defina `N8N_AFFILIATE_URL` no `.env` (atual: `https://n8n.io/cloud/`) e rode novamente este builder para atualizar os Sticky Notes.
 2. **Selo `Verified Creator` + Venda de Templates Pagos (`creators.n8n.io`):**
    - Acesse https://creators.n8n.io e envie os **4 templates abaixo** (ter **3 aprovados** destrava o selo *Verified Creator* e habilita Templates Pagos dentro do catálogo nativo do n8n).
 
