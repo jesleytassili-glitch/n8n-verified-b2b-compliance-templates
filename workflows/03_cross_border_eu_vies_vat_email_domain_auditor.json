@@ -3,7 +3,7 @@
   "nodes": [
     {
       "parameters": {
-        "content": "## Cross-Border EU VIES VAT Reverse-Charge & Anti-BEC Billing Domain Auditor\n\n**Category:** Finance & Accounting Automation\n\nVerifies European Union cross-border VAT registration numbers against official EU VIES for 0% Reverse-Charge compliance while auditing the vendor's billing email domain (SPF, DMARC, MX) to prevent Business Email Compromise (BEC) wire fraud.\n\n### Run 24/7 on n8n Cloud\nDeploy this schedule without managing servers on **n8n Cloud**: https://n8n.io/cloud/?utm_source=n8n_creator_b2bquantapis",
+        "content": "## Cross-Border EU VIES VAT Reverse-Charge & Anti-BEC Billing Domain Auditor\n\n**Category:** Finance & Accounting Automation\n\nVerifies European Union cross-border VAT registration numbers against official EU VIES for 0% Reverse-Charge compliance while auditing the vendor's billing email domain (SPF, DMARC, MX) to prevent Business Email Compromise (BEC) wire fraud.\n\n**Cloud Scheduling:** Compatible with self-hosted n8n and n8n Cloud (https://n8n.io/cloud/).",
         "height": 250,
         "width": 440,
         "color": 4
@@ -131,7 +131,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\"vatNumbers\": [{\"countryCode\": \"={{ $json.countryCode }}\", \"vatNumber\": \"={{ $json.vatNumber }}\"}]}",
+        "jsonBody": "{\"vatNumbers\": \"={{ $json.countryCode + $json.vatNumber }}\", \"requesterCountryCode\": \"DE\", \"maxResults\": 10}",
         "options": {
           "timeout": 45000
         }
@@ -166,7 +166,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\"domains\": [\"={{ $('Normalize Intake Payload').item.json.billingDomain }}\"], \"checkDmarcSpf\": true}",
+        "jsonBody": "{\"targets\": [\"={{ $('Normalize Intake Payload').item.json.billingDomain }}\"], \"checkDmarcAndSpf\": true}",
         "options": {
           "timeout": 45000
         }
