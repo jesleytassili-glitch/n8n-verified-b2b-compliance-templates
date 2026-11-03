@@ -1,4 +1,4 @@
-# Official n8n B2B Compliance & DevSecOps Workflow Templates (`v1.0.0`)
+# Official n8n B2B Compliance & DevSecOps Workflow Templates (`v1.0.1`)
 
 ![Release](https://img.shields.io/github/v/release/jesleytassili-glitch/n8n-verified-b2b-compliance-templates?label=release&color=brightgreen)
 ![Templates](https://img.shields.io/badge/n8n_Verified_Ready-4_Workflows-FF6D5A)
@@ -17,5 +17,5 @@ Production-grade **n8n automation workflows** with on-canvas Sticky Notes, stand
 
 ## Quick Import (< 2 Minutes)
 1. Get a free API key (`15 free runs/month`, PRO `$19/mo`) at **[RapidAPI @b2bquantapis](https://rapidapi.com/user/b2bquantapis)** (or run via **[Apify Store @b2b-quant-apis](https://apify.com/b2b-quant-apis)**).
-2. In **n8n** (Self-Hosted or **[n8n Cloud](https://n8n.io/cloud/?utm_source=github_b2bquantapis)**), click **Import from File / URL** and select any JSON inside [`workflows/`](./workflows/).
+2. In **n8n** (Self-Hosted or **[n8n Cloud](https://n8n.io/cloud/)**), click **Import from File / URL** and select any JSON inside [`workflows/`](./workflows/).
 3. Create an `HTTP Header Auth` credential (`Name: X-RapidAPI-Key`, `Value: YOUR_RAPIDAPI_KEY`) and attach it to the two HTTP compliance nodes.
