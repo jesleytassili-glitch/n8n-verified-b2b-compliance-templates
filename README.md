@@ -19,3 +19,17 @@ Production-grade **n8n automation workflows** with on-canvas Sticky Notes, stand
 1. Get a free API key (`15 free runs/month`, PRO `$19/mo`) at **[RapidAPI @b2bquantapis](https://rapidapi.com/user/b2bquantapis)** (or run via **[Apify Store @b2b-quant-apis](https://apify.com/b2b-quant-apis)**).
 2. In **n8n** (Self-Hosted or **[n8n Cloud](https://n8n.io/cloud/)**), click **Import from File / URL** and select any JSON inside [`workflows/`](./workflows/).
 3. Create an `HTTP Header Auth` credential (`Name: X-RapidAPI-Key`, `Value: YOUR_RAPIDAPI_KEY`) and attach it to the two HTTP compliance nodes.
+
+<!-- PSEO_DOCS_PORTAL_V48 -->
+## 📚 Live Documentation & API Reference (pSEO Portal v4.8)
+
+Official developer documentation, interactive OpenAPI 3.0.3 specifications, and ready-to-use SDK code samples:
+
+- 🌐 **[Central API Documentation Portal](https://jesleytassili-glitch.github.io/docs/index.html)** — Directory of 31 institutional REST & MCP endpoints.
+- 🤖 **[LLM & AI Agent Discovery (`llms.txt`)](https://jesleytassili-glitch.github.io/llms.txt)** — Structured GEO index for Claude Code, Cursor & Autonomous Agents.
+- 🚀 **[Global Sanctions & KYB Screening API](https://jesleytassili-glitch.github.io/docs/global-sanctions-pep-interpol-watchlist-screener.html)** — Interactive Schema & Code Snippets ([Markdown](https://jesleytassili-glitch.github.io/docs/global-sanctions-pep-interpol-watchlist-screener.md))
+- 🚀 **[US SEC EDGAR Filings & Insider Radar API](https://jesleytassili-glitch.github.io/docs/us-sec-edgar-filings-insider-radar.html)** — Interactive Schema & Code Snippets ([Markdown](https://jesleytassili-glitch.github.io/docs/us-sec-edgar-filings-insider-radar.md))
+- 🚀 **[Healthcare TISS 4.03.00 XML Validator API](https://jesleytassili-glitch.github.io/docs/healthcare-tiss-xml-validator.html)** — Interactive Schema & Code Snippets ([Markdown](https://jesleytassili-glitch.github.io/docs/healthcare-tiss-xml-validator.md))
+
+*High-availability SLA hosted on GitHub Pages with enterprise distribution across RapidAPI, Zyla API Hub, and Apify Store.*
+<!-- /PSEO_DOCS_PORTAL_V48 -->
